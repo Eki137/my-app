@@ -5,11 +5,12 @@ import com.testing.supermarket.data.Product;
 import com.testing.supermarket.data.Type;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductFormTest {
     private List<Type> types;
@@ -77,5 +78,49 @@ public class ProductFormTest {
         assertEquals(67.4, savedProduct.getPrice());
         assertEquals(type1, savedProduct.getType());
         assertEquals(brand2, savedProduct.getBrand());
+    }
+
+    @Test
+    public void checkDescriptionValidation(){
+        ProductForm form = new ProductForm(types, brands);
+        form.setProduct(product);
+        assertTrue(form.binder.isValid());
+        assertTrue(form.save.isEnabled());
+        form.description.setValue("");
+        assertFalse(form.binder.isValid());
+        assertFalse(form.save.isEnabled());
+    }
+
+    @Test
+    public void checkStockValidation(){
+        ProductForm form = new ProductForm(types, brands);
+        form.setProduct(product);
+        assertTrue(form.binder.isValid());
+        assertTrue(form.save.isEnabled());
+        form.stock.setValue("-1");
+        assertFalse(form.binder.isValid());
+        assertFalse(form.save.isEnabled());
+    }
+
+    @Test
+    public void checkPriceValidation(){
+        ProductForm form = new ProductForm(types, brands);
+        form.setProduct(product);
+        assertTrue(form.binder.isValid());
+        assertTrue(form.save.isEnabled());
+        form.price.setValue("0");
+        assertFalse(form.binder.isValid());
+        assertFalse(form.save.isEnabled());
+    }
+
+    @Test
+    public void checkDiscountValidation(){
+        ProductForm form = new ProductForm(types, brands);
+        form.setProduct(product);
+        assertTrue(form.binder.isValid());
+        assertTrue(form.save.isEnabled());
+        form.discount.setValue("-1");
+        assertFalse(form.binder.isValid());
+        assertFalse(form.save.isEnabled());
     }
 }

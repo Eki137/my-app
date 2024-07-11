@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 public class ListView extends VerticalLayout {
     Grid<Product> grid = new Grid<>(Product.class);
     TextField filterText = new TextField();
+    Button addProductButton = new Button();
     ProductForm form;
     InventoryService service;
 
@@ -84,7 +85,7 @@ public class ListView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addProductButton = new Button("Add product");
+        addProductButton.setText("Add Product");
         addProductButton.addClickListener(click -> addProduct());
 
         var toolbar = new HorizontalLayout(filterText, addProductButton);
